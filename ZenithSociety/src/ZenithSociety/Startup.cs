@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ZenithSociety.Data;
 using ZenithSociety.Models;
 using ZenithSociety.Services;
+using ZenithSociety.Data;
 
 namespace ZenithSociety
 {
@@ -55,7 +55,7 @@ namespace ZenithSociety
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationDbContext context)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -83,6 +83,8 @@ namespace ZenithSociety
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            
+            DummyData.Initialize(context);
         }
     }
 }

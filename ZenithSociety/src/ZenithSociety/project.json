@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-ZenithSociety-903de39e-576e-4565-8843-569893c91b3f",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final"
   },
 
   "tools": {

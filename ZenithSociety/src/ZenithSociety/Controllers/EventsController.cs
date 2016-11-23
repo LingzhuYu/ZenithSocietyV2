@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ZenithSociety.Models;
 using ZenithSociety.Data;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,14 +21,14 @@ namespace ZenithSociety.Controllers
             _context = context;
         }
         // GET: Events
-       /* public ActionResult Index()
+        public ActionResult Index()
         {
             var events = _context.Events.Include(m => m.Activity).Include(n => n.ApplicationUser);
             return View(events.ToList());
         }
 
         // GET: Events/Details/5
-        public ActionResult Details(int? id)
+       /* public ActionResult Details(int? id)
         {
             if (id == null)
             {

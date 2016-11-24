@@ -44,7 +44,11 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final"
+    "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final",
+    "Bootstrap.v3.Datetimepicker": "4.17.43",
+    "Bootstrap.v3.Datetimepicker.CSS": "4.17.43",
+    "jQuery": "3.1.1",
+    "bootstrap": "3.3.7"
   },
 
   "tools": {

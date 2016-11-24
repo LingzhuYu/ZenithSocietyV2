@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Event>
+
+@{
+    ViewBag.Title = "Show";
+    var currentDate = "";
+}
+
+<h2>Show</h2>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <table class="table">
+
+            @foreach (var item in Model)
+            {
+                //Initializes currentDate to the first date and generates the first <tr>
+                if (currentDate == "")
+                {
+                    currentDate = @String.Format(ViewBag.DateFormat, item.StartDate);
+                    <tr>
+                        <th colspan="2">
+                            @String.Format(ViewBag.DateFormat, item.StartDate)
+                        </th>
+                    </tr>
+                }
+
+                //DateTimes within the same day gets grouped together in same <tr>
+                if (currentDate != @String.Format(ViewBag.DateFormat, item.StartDate))
+                {
+                    currentDate = @String.Format(ViewBag.DateFormat, item.StartDate);
+
+                    <tr>
+                        <th colspan="2">
+                            @String.Format(ViewBag.DateFormat, item.StartDate)
+                        </th>
+                    </tr>
+                }
+
+                <tr>
+                    <td>
+                        @String.Format(ViewBag.TimeFormat, item.StartDate) - @String.Format(ViewBag.TimeFormat, item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Activity.ActivityDescription)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

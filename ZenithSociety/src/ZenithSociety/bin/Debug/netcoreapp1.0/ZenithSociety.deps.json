@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "bd3f1a1fbcfe658c53e4e816c2309851cb39f90f"
+    "signature": "76dad93f2cffd25df0a90f200772943666cf9aa1"
   },
   "compilationOptions": {
     "defines": [
@@ -35,7 +35,11 @@
           "Microsoft.Extensions.Logging.Debug": "1.0.0",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
-          "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final"
+          "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-final",
+          "Bootstrap.v3.Datetimepicker": "4.17.43",
+          "Bootstrap.v3.Datetimepicker.CSS": "4.17.43",
+          "jQuery": "3.1.1",
+          "bootstrap": "3.3.7"
         },
         "runtime": {
           "ZenithSociety.dll": {}
@@ -44,6 +48,29 @@
           "ZenithSociety.dll": {}
         }
       },
+      "bootstrap/3.3.7": {
+        "dependencies": {
+          "jQuery": "3.1.1"
+        }
+      },
+      "bootstrap.Less/3.3.5": {
+        "dependencies": {
+          "jQuery": "3.1.1"
+        }
+      },
+      "Bootstrap.v3.Datetimepicker/4.17.43": {
+        "dependencies": {
+          "Moment.js": "2.9.0",
+          "bootstrap.Less": "3.3.5"
+        }
+      },
+      "Bootstrap.v3.Datetimepicker.CSS/4.17.43": {
+        "dependencies": {
+          "Moment.js": "2.9.0",
+          "bootstrap": "3.3.7"
+        }
+      },
+      "jQuery/3.1.1": {},
       "Microsoft.AspNet.Authorization/1.0.0-rc1-final": {
         "dependencies": {
           "Microsoft.AspNet.Http.Features": "1.0.0-rc1-final",
@@ -1786,6 +1813,7 @@
           "lib/netstandard1.6/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll": {}
         }
       },
+      "Moment.js/2.9.0": {},
       "Newtonsoft.Json/9.0.1": {
         "dependencies": {
           "Microsoft.CSharp": "4.0.1",
@@ -3929,6 +3957,31 @@
       "serviceable": false,
       "sha512": ""
     },
+    "bootstrap/3.3.7": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3YTWhPNh6UcnUvzw9u6A2/hy2w0h4lznxPbX6FY47lFia3+Ib4zBixTpW6YieYA/b2fLXbkjoD59OjcVF3cJXw=="
+    },
+    "bootstrap.Less/3.3.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+xxiEyTJdWwO9G7Ig9gHoXl7grsncyQVy1bhWY9L41fSFUayIZYlziGcwB+ORQDzHAZJrCNa+y1bke11wJy0Ug=="
+    },
+    "Bootstrap.v3.Datetimepicker/4.17.43": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-k41ZNfX8W9COOmHT6Uxcx7DC5SRl4xA9cUEJNkoHmun8rgm3gjQZFnTVqdv37ucpY2+pXLxtYts7BImUJDQM5Q=="
+    },
+    "Bootstrap.v3.Datetimepicker.CSS/4.17.43": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vCdPwjAdL4y/qTm508BLoD1Plt61wtHppvDVua3/E+fR8GUOnMWGDN/fs5cL6kUfYHoxp1vkIz7UtIJnE1eyTg=="
+    },
+    "jQuery/3.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-XGsgwse025NxNPHjY7GE8HMFNzjqsa7a/PmNS1S5bVU++pNpZmiTnzUBK6OmECnqG/fIMVaAYHTnfoYd/Wz28g=="
+    },
     "Microsoft.AspNet.Authorization/1.0.0-rc1-final": {
       "type": "package",
       "serviceable": true,
@@ -4488,6 +4541,11 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-7Npb0ypZ0Ba1oCv7T5GWF+gJTmJz7b8VzvsysRQxhJFz0LgFx3hHu81cKj9/WYf9JBObkt8trwAwec3qrOytGQ=="
+    },
+    "Moment.js/2.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4rhbvFzmgXp/gjvwjxt9Qjmdz+2CD9T99erXEDtZHlYxaI06F9A4628/Vpxklm8D9RmwJjKjp1244FwEh+a5WQ=="
     },
     "Newtonsoft.Json/9.0.1": {
       "type": "package",

@@ -28,13 +28,13 @@ namespace ZenithSociety.Controllers
         }
 
         // GET: Activities/Details/5
-       /* public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Activity activity = _context.Activities.Find(id);
+            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
             if (activity == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace ZenithSociety.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind(Include = "ActivityId,ActivityDescription,CreationDate")] Activity activity)
+        public IActionResult Create (Activity activity)
         {
             if (ModelState.IsValid)
             {
@@ -67,13 +67,13 @@ namespace ZenithSociety.Controllers
         }
 
         // GET: Activities/Edit/5
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Activity activity = _context.Activities.Find(id);
+            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
             if (activity == null)
             {
                 return NotFound();
@@ -86,27 +86,40 @@ namespace ZenithSociety.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([Bind(Include = "ActivityId,ActivityDescription,CreationDate")] Activity activity)
+        public async Task<IActionResult> Edit(int? id, Activity activity)
         {
-            activity.CreationDate = Convert.ToDateTime(String.Format("{0:MM'/'dd'/'yyyy hh:mm tt}", db.Events.Find(activity.ActivityId).CreationDate));
+            if (id != activity.ActivityId)
+            {
+                return NotFound();
+            }
 
+            //activity.CreationDate = Convert.ToDateTime(String.Format("{0:MM'/'dd'/'yyyy hh:mm tt}", _context.Events.Where(a => a.EventId == id).First().CreationDate));
+            activity.CreationDate = DateTime.Now;
             if (ModelState.IsValid)
             {
-                _context.Entry(activity).State = EntityState.Modified;
-                _context.SaveChanges();
+                try
+                {
+                    _context.Activities.Update(activity);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+
+                }
+
                 return RedirectToAction("Index");
             }
             return View(activity);
         }
 
         // GET: Activities/Delete/5
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return NotFound();
             }
-            Activity activity = _context.Activities.Find(id);
+            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
             if (activity == null)
             {
                 return NotFound();
@@ -117,11 +130,12 @@ namespace ZenithSociety.Controllers
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Activity activity = _context.Activities.Find(id);
+            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
+
             _context.Activities.Remove(activity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -132,6 +146,6 @@ namespace ZenithSociety.Controllers
                 _context.Dispose();
             }
             base.Dispose(disposing);
-        }*/
+        }
     }
 }

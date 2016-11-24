@@ -1,60 +1,58 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ZenithSociety.Models;
-using ZenithSociety.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using Microsoft.EntityFrameworkCore;
+using ZenithSociety.Data;
+using ZenithSociety.Models;
+using System.Security.Claims;
 
 namespace ZenithSociety.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public EventsController(ApplicationDbContext context)
         {
-            _context = context;
+            _context = context;    
         }
+
         // GET: Events
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var events = _context.Events.Include(m => m.Activity).Include(n => n.ApplicationUser);
-            return View(events.ToList());
+            var applicationDbContext = _context.Events.Include(a => a.Activity).Include(u => u.ApplicationUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Events/Details/5
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-
-            var eventList = _context.Events.Include(m => m.Activity);
+            var eventList = _context.Events.Include(m => m.Activity).Include(u => u.ApplicationUser);
             var currentEvent = eventList.Where(m => m.EventId == id).First();
 
-            Event @event = _context.Events.Where(e => e.EventId == id).First();
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
             @event.ActivityId = currentEvent.ActivityId;
-
+            @event.UserId = currentEvent.UserId;
             if (@event == null)
             {
                 return NotFound();
             }
+
             return View(@event);
         }
 
         // GET: Events/Create
         public IActionResult Create()
         {
-            ViewBag.ActivityId = new SelectList(_context.Activities, "ActivityId", "ActivityDescription");
-            ViewBag.Id = new SelectList(_context.Users, "Id", "UserName");
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "ActivityId", "ActivityDescription");
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -63,20 +61,18 @@ namespace ZenithSociety.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Event @event)
+        public async Task<IActionResult> Create([Bind("EventId,ActivityId,CreationDate,EndDate,UserId,IsActive,StartDate")] Event @event)
         {
             if (ModelState.IsValid)
             {
                 @event.CreationDate = DateTime.Now;
-                // @event.Id = User.Identity.GetUserId();
-                @event.Id = "34234";
-                _context.Events.Add(@event);
-                _context.SaveChanges();
+                @event.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                _context.Add(@event);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ActivityId = new SelectList(_context.Activities, "ActivityId", "ActivityDescription", @event.ActivityId);
-            ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", @event.Id);
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "ActivityId", "ActivityDescription", @event.ActivityId);
+            //ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", @event.Id);
             return View(@event);
         }
 
@@ -87,13 +83,14 @@ namespace ZenithSociety.Controllers
             {
                 return NotFound();
             }
-            var @event = await _context.Events.SingleOrDefaultAsync(e => e.EventId == id);
+
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
             if (@event == null)
             {
                 return NotFound();
             }
-            ViewBag.ActivityId = new SelectList(_context.Activities, "ActivityId", "ActivityDescription", @event.ActivityId);
-            ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", @event.Id);
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "ActivityId", "ActivityDescription", @event.ActivityId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Id", @event.UserId);
             return View(@event);
         }
 
@@ -102,28 +99,35 @@ namespace ZenithSociety.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,ActivityId,CreationDate,EndDate,UserId,IsActive,StartDate")] Event @event)
         {
-            //@event.CreationDate = Convert.ToDateTime(String.Format("{0:MM'/'dd'/'yyyy hh:mm tt}", _context.Events.Find(@event.EventId).CreationDate));
-            @event.CreationDate = DateTime.Now;
-            //@event.Id = _context.Events.Where(e => e.EventId == id).First().Id;
+            if (id != @event.EventId)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Events.Update(@event);
+                    _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
+                    if (!EventExists(@event.EventId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-
                 return RedirectToAction("Index");
             }
-            ViewBag.ActivityId = new SelectList(_context.Activities, "ActivityId", "ActivityDescription", @event.ActivityId);
-            ViewBag.Id = new SelectList(_context.Users, "Id", "UserName", @event.Id);
+            ViewData["ActivityId"] = new SelectList(_context.Activities, "ActivityId", "ActivityDescription", @event.ActivityId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Id", @event.UserId);
             return View(@event);
         }
 
@@ -135,17 +139,18 @@ namespace ZenithSociety.Controllers
                 return NotFound();
             }
 
-            //Gets Activity Id from db and places it in @event
-            var eventList = _context.Events.Include(m => m.Activity);
+            var eventList = _context.Events.Include(m => m.Activity).Include(u => u.ApplicationUser);
             var currentEvent = eventList.Where(m => m.EventId == id).First();
 
-            var @event = await _context.Events.SingleOrDefaultAsync(e => e.EventId == id);
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
             @event.ActivityId = currentEvent.ActivityId;
+            @event.UserId = currentEvent.UserId;
 
             if (@event == null)
             {
                 return NotFound();
             }
+
             return View(@event);
         }
 
@@ -154,20 +159,15 @@ namespace ZenithSociety.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Events.SingleOrDefaultAsync(e => e.EventId == id);
-
+            var @event = await _context.Events.SingleOrDefaultAsync(m => m.EventId == id);
             _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        private bool EventExists(int id)
         {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
-            base.Dispose(disposing);
+            return _context.Events.Any(e => e.EventId == id);
         }
     }
 }

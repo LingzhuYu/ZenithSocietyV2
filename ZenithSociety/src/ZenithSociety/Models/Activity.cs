@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ZenithSociety.Models
 { 
@@ -19,6 +20,7 @@ namespace ZenithSociety.Models
 
         [Display(Name = "Creation Date")]
         [DisplayFormat(DataFormatString = "{0:MM'/'dd'/'yyyy hh:mm tt}")]
+        [HiddenInput(DisplayValue = true)]
         public DateTime CreationDate { get; set; }
 
         public List<Event> Events { get; set; }

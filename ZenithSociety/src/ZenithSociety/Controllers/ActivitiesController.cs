@@ -1,30 +1,28 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ZenithSociety.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ZenithSociety.Data;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using ZenithSociety.Models;
 
 namespace ZenithSociety.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     public class ActivitiesController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public ActivitiesController(ApplicationDbContext context)
         {
-            _context = context;
+            _context = context;    
         }
 
         // GET: Activities
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_context.Activities.ToList());
+            return View(await _context.Activities.ToListAsync());
         }
 
         // GET: Activities/Details/5
@@ -34,11 +32,13 @@ namespace ZenithSociety.Controllers
             {
                 return NotFound();
             }
-            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
+
+            var activity = await _context.Activities.SingleOrDefaultAsync(m => m.ActivityId == id);
             if (activity == null)
             {
                 return NotFound();
             }
+
             return View(activity);
         }
 
@@ -53,16 +53,15 @@ namespace ZenithSociety.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create (Activity activity)
+        public async Task<IActionResult> Create([Bind("ActivityId,ActivityDescription,CreationDate")] Activity activity)
         {
             if (ModelState.IsValid)
             {
-                activity.CreationDate = DateTime.Now;
-                _context.Activities.Add(activity);
-                _context.SaveChanges();
+                @activity.CreationDate = DateTime.Now;
+                _context.Add(activity);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
             return View(activity);
         }
 
@@ -73,7 +72,8 @@ namespace ZenithSociety.Controllers
             {
                 return NotFound();
             }
-            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
+
+            var activity = await _context.Activities.SingleOrDefaultAsync(m => m.ActivityId == id);
             if (activity == null)
             {
                 return NotFound();
@@ -86,27 +86,31 @@ namespace ZenithSociety.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Activity activity)
+        public async Task<IActionResult> Edit(int id, [Bind("ActivityId,ActivityDescription,CreationDate")] Activity activity)
         {
             if (id != activity.ActivityId)
             {
                 return NotFound();
             }
 
-            //activity.CreationDate = Convert.ToDateTime(String.Format("{0:MM'/'dd'/'yyyy hh:mm tt}", _context.Events.Where(a => a.EventId == id).First().CreationDate));
-            activity.CreationDate = DateTime.Now;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Activities.Update(activity);
+                    _context.Update(activity);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-
+                    if (!ActivityExists(activity.ActivityId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-
                 return RedirectToAction("Index");
             }
             return View(activity);
@@ -119,11 +123,13 @@ namespace ZenithSociety.Controllers
             {
                 return NotFound();
             }
-            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
+
+            var activity = await _context.Activities.SingleOrDefaultAsync(m => m.ActivityId == id);
             if (activity == null)
             {
                 return NotFound();
             }
+
             return View(activity);
         }
 
@@ -132,20 +138,15 @@ namespace ZenithSociety.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
-
+            var activity = await _context.Activities.SingleOrDefaultAsync(m => m.ActivityId == id);
             _context.Activities.Remove(activity);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        private bool ActivityExists(int id)
         {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
-            base.Dispose(disposing);
+            return _context.Activities.Any(e => e.ActivityId == id);
         }
     }
 }

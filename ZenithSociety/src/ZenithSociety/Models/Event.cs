@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZenithSociety.Models
 {
@@ -21,12 +23,15 @@ namespace ZenithSociety.Models
 
         ////Creates FK 
         [Display(Name = "Created By")]
-        [ScaffoldColumn(false)]
-        public string Id { get; set; }
+        [HiddenInput(DisplayValue = true)]
+        public string UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         [Display(Name = "Creation Date")]
         [DisplayFormat(DataFormatString = "{0:MM'/'dd'/'yyyy hh:mm tt}")]
+        [HiddenInput(DisplayValue = true)]
         public DateTime CreationDate { get; set; }
 
         [Display(Name = "Is Active")]

@@ -1,37 +1,37 @@
-﻿@model Activity
+@model ZenithSociety.Models.Activity
 
 @{
-    ViewBag.Title = "Edit Activity";
+    ViewData["Title"] = "Edit";
 }
 
-<h2>Edit Activity</h2>
+<h2>Edit</h2>
 
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
+<form asp-action="Edit">
     <div class="form-horizontal">
+        <h4>Activity</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ActivityId)
-
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ActivityId" />
+    <input type="hidden" asp-for="CreationDate" />
         <div class="form-group">
-            @Html.LabelFor(model => model.ActivityDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label asp-for="ActivityDescription" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ActivityDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ActivityDescription, "", new { @class = "text-danger" })
+                <input asp-for="ActivityDescription" class="form-control" />
+                <span asp-validation-for="ActivityDescription" class="text-danger" />
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
-}
+</form>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

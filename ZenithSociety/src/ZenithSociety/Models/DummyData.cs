@@ -136,8 +136,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/09/27 8:30 am"),
                     EndDate = Convert.ToDateTime("2016/09/27 10:30 am"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Senior's Golf Tournament"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -146,8 +145,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/09/28 8:30 am"),
                     EndDate = Convert.ToDateTime("2016/09/28 10:30 am"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Leadership General Assembly Meeting"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -156,8 +154,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/09/30 5:30 pm"),
                     EndDate = Convert.ToDateTime("2016/09/30 7:15 pm"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Youth Bowling Tournament"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -166,8 +163,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/09/30 7:00 pm"),
                     EndDate = Convert.ToDateTime("2016/09/30 8:00 pm"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Young ladies cooking lessons"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -176,8 +172,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/01 8:30 am"),
                     EndDate = Convert.ToDateTime("2016/10/01 10:30 am"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Youth craft lessons"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -186,8 +181,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/01 10:30 am"),
                     EndDate = Convert.ToDateTime("2016/10/01 12:30 pm"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Youth choir practice"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -196,8 +190,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/01 12:00 pm"),
                     EndDate = Convert.ToDateTime("2016/10/01 1:30 pm"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Lunch"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -206,8 +199,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/02 7:30 am"),
                     EndDate = Convert.ToDateTime("2016/10/02 8:30 am"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Pancake Breakfast"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -216,8 +208,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/02 8:30 am"),
                     EndDate = Convert.ToDateTime("2016/10/02 10:30 am"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Swimming Lessons for the youth"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -226,8 +217,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/02 8:30 am"),
                     EndDate = Convert.ToDateTime("2016/10/02 10:30 am"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Swimming Exercise for parents"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -236,8 +226,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/02 10:30 am"),
                     EndDate = Convert.ToDateTime("2016/10/02 12:30 pm"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Bingo Tournament"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -246,8 +235,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/02 12:00 pm"),
                     EndDate = Convert.ToDateTime("2016/10/02 1:00 pm"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "BBQ Lunch"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true
@@ -256,8 +244,7 @@ namespace ZenithSociety.Models
                 {
                     StartDate = Convert.ToDateTime("2016/10/02 1:00 pm"),
                     EndDate = Convert.ToDateTime("2016/10/02 6:00 pm"),
-                    Id = dummyId,
-                    ApplicationUser = db.Users.First(b => b.UserName == "a"),
+                    UserId = dummyId,
                     Activity = db.Activities.First(a => a.ActivityDescription == "Garage Sale"),
                     CreationDate = Convert.ToDateTime("2016/09/10"),
                     IsActive = true

@@ -1,39 +1,41 @@
-﻿@model IEnumerable<Activity>
+@model IEnumerable<ZenithSociety.Models.Activity>
 
 @{
-    ViewBag.Title = "Activity List";
+    ViewData["Title"] = "Index";
 }
 
-<h2>Activity List</h2>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ActivityDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreationDate)
-        </th>
-        <th></th>
-    </tr>
-
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActivityDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreationDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ActivityId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ActivityId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ActivityId })
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ActivityId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ActivityId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ActivityId">Delete</a>
+            </td>
+        </tr>
 }
-
+    </tbody>
 </table>

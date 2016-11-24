@@ -199,23 +199,21 @@ namespace ZenithSociety.Data.Migrations
 
                     b.Property<int>("ActivityId");
 
-                    b.Property<string>("ApplicationUserId");
-
                     b.Property<DateTime>("CreationDate");
 
                     b.Property<DateTime>("EndDate");
-
-                    b.Property<string>("Id");
 
                     b.Property<bool>("IsActive");
 
                     b.Property<DateTime>("StartDate");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("EventId");
 
                     b.HasIndex("ActivityId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Events");
                 });
@@ -266,7 +264,7 @@ namespace ZenithSociety.Data.Migrations
 
                     b.HasOne("ZenithSociety.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Events")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("UserId");
                 });
         }
     }

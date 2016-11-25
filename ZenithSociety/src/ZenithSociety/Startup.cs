@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using ZenithSociety.Models;
 using ZenithSociety.Services;
 using ZenithSociety.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace ZenithSociety
 {
@@ -39,15 +40,37 @@ namespace ZenithSociety
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
+            services.AddMvc();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            // Register the OpenIddict services, including the default Entity Framework stores.
+            services.AddOpenIddict<ApplicationDbContext>()
+                // Register the ASP.NET Core MVC binder used by OpenIddict.
+                // Note: if you don't call this method, you won't be able to
+                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                .AddMvcBinders()
+
+                // Enable the token endpoint (required to use the password flow).
+                .EnableTokenEndpoint("/connect/token")
+                .EnableAuthorizationEndpoint("/connect/authorize")
+
+                // Allow client applications to use the grant_type=password flow.
+                .AllowPasswordFlow()
+
+                // During development, you can disable the HTTPS requirement.
+                .DisableHttpsRequirement()
+
+                // Register a new ephemeral key, that is discarded when the application
+                // shuts down. Tokens signed using this key are automatically invalidated.
+                // This method should only be used during development.
+                .AddEphemeralSigningKey();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -75,7 +98,21 @@ namespace ZenithSociety
 
             app.UseIdentity();
 
+            app.UseOAuthValidation();
+
+            app.UseOpenIddict();
+
+            app.UseMvc();
+
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "Cookie",
+                LoginPath = new PathString("/Account/Login"),
+                AccessDeniedPath = new PathString("/Account/Forbidden"),
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true
+            });
 
             app.UseMvc(routes =>
             {

@@ -35,7 +35,8 @@
                 @role.Value
             </td>
             <td>
-                <a asp-action="Delete" asp-route-roleId="@role.Key">Delete</a>
+                <a asp-action="Edit" asp-route-roleId="@role.Key">Manage Role</a> |
+                <a asp-action="Delete" asp-route-roleId="@role.Key">Delete Role</a>
             </td>
         </tr>
 }

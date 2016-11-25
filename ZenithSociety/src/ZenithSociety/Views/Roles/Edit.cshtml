@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Index";
+    var userList = ViewData["users"] as Dictionary<string, string>;
+    var roleName = ViewData["roleName"];
+    var roleId = ViewData["roleId"];
+}
+
+<h2>@roleName</h2>
+
+<form asp-action="AddToRole">
+    <input type="hidden" name="roleName" id="roleName" value="@roleName" />
+    <input type="hidden" name="roleId" id="roleId" value="@roleId" />
+    <div class="form-horizontal">
+        <div class="form-group">
+            <input name ="UserName" id="UserName" class="form-control" />
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add Member" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                UserName
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var user in userList) {
+        <tr>
+            <td>
+                @user.Value
+            </td>
+            <td>
+                <a asp-action="DeleteFromRole" asp-route-userId="@user.Key" asp-route-roleId="@roleId" asp-route-roleName="@roleName">Remove</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

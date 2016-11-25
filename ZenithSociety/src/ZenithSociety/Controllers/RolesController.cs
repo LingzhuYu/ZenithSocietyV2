@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ZenithSociety.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ZenithSociety.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RolesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -40,6 +42,7 @@ namespace ZenithSociety.Controllers
             return View();
         }
 
+        //Add role
         public async Task<IActionResult> Create()
         {
             var roleName = Request.Form["roleName"];
@@ -53,17 +56,25 @@ namespace ZenithSociety.Controllers
             return RedirectToAction("Index");
         }
 
+        //Delete role
         public async Task<IActionResult> Delete(string roleId)
         {
             if (_context.Roles.Any(r => r.Id == roleId))
             {
                 var role = await roleManager.FindByIdAsync(roleId);
-                await roleManager.DeleteAsync(role);
+
+                //Cannot delete Admin and Member role
+                if(!((role.Name.Equals("Admin")) || (role.Name.Equals("Member"))))
+                {
+                    await roleManager.DeleteAsync(role);
+                }
+               
             }
 
             return RedirectToAction("Index");
         }
 
+        //Go to specific role page where you can add / remove users
         public async Task<IActionResult> Edit(string roleId)
         {
             if (_context.Roles.Any(r => r.Id == roleId))
@@ -92,6 +103,7 @@ namespace ZenithSociety.Controllers
             return RedirectToAction("Index");
         }
 
+        //Add a user to a role
         public async Task<IActionResult> AddToRole()
         {
             var UserName = Request.Form["UserName"];
@@ -102,17 +114,30 @@ namespace ZenithSociety.Controllers
             {
                 if(_context.Users.Any(u => u.UserName == UserName))
                 {
-                    var user = _context.Users.Where(u => u.UserName == UserName).First();
+                    var userId = _context.Users.Where(u => u.UserName == UserName).First().Id;
 
-                    await userManager.AddToRoleAsync(user, roleName);
+                    if (!_context.UserRoles.Any(u => u.RoleId == roleId && u.UserId == userId))
+                    {
+                        var user = _context.Users.Where(u => u.UserName == UserName).First();
+
+                        await userManager.AddToRoleAsync(user, roleName);
+                    }
                 }
             }
 
             return RedirectToAction("Edit", new { roleId = roleId });
         }
 
+        //Delete a user from a role
         public async Task<IActionResult> DeleteFromRole(string userId, string roleId, string roleName)
         {
+            var userName = _context.Users.Where(u => u.Id == userId).First().UserName;
+
+            //Prevents a from being deleted from admin
+            if ((roleName == "Admin") && (userName == "a"))
+            {
+                return RedirectToAction("Edit", new { roleId = roleId });
+            }
 
             if (_context.Roles.Any(r => r.Id == roleId))
             {

@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using ZenithSociety.Data;
 using ZenithSociety.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ZenithSociety.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;

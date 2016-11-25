@@ -109,7 +109,7 @@ namespace ZenithSociety.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await _userManager.AddToRoleAsync(user, "Member");
+                    await _userManager.AddToRoleAsync(user, "Member");
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link

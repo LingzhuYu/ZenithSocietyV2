@@ -43,7 +43,7 @@ namespace ZenithSociety
             services.AddMvc();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()

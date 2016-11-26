@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ZenithSociety.Data;
 using ZenithSociety.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ZenithSociety.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class EventapiController : Controller
     {

@@ -13,6 +13,8 @@ using AspNet.Security.OpenIdConnect.Server;
 using AspNet.Security.OpenIdConnect.Extensions;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using ZenithSociety.Models.AccountViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -237,5 +239,26 @@ namespace ZenithSociety.Controllers
 
                 return ticket;
             }
+
+        [HttpPost("~/connect/register")]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+           
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                //need to return error
+                return Ok();
+            }
+
+            return Ok();
         }
+    }
     }

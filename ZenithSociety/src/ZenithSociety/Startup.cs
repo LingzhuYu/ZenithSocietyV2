@@ -41,6 +41,7 @@ namespace ZenithSociety
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -93,6 +94,11 @@ namespace ZenithSociety
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseCors(builder =>
+                        builder.AllowAnyOrigin()
+                               .AllowAnyHeader()
+                        );
 
             app.UseStaticFiles();
 

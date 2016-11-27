@@ -238,5 +238,26 @@ namespace ZenithSociety.Controllers
 
                 return ticket;
             }
+
+        [HttpPost("~/connect/register")]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+           
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                //need to return error
+                return Ok();
+            }
+
+            return Ok();
         }
+    }
     }

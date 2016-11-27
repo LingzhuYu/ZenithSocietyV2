@@ -13,6 +13,7 @@ using AspNet.Security.OpenIdConnect.Server;
 using AspNet.Security.OpenIdConnect.Extensions;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using ZenithSociety.Models.AccountViewModels;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -59,9 +60,9 @@ namespace ZenithSociety.Controllers
                     RequestId = request.RequestId,
                     Scope = request.Scope
                 });
-            }
+            }*/
 
-            [Authorize, FormValueRequired("submit.Accept")]
+            /*[Authorize, FormValueRequired("submit.Accept")]
             [HttpPost("~/connect/authorize"), ValidateAntiForgeryToken]
             public async Task<IActionResult> Accept(OpenIdConnectRequest request)
             {
@@ -113,16 +114,16 @@ namespace ZenithSociety.Controllers
                 // when the user agent is redirected from the external identity provider
                 // after a successful authentication flow (e.g Google or Facebook).
                 await _signInManager.SignOutAsync();
-
+            
                 // Returning a SignOutResult will ask OpenIddict to redirect the user agent
                 // to the post_logout_redirect_uri specified by the client application.
                 return SignOut(OpenIdConnectServerDefaults.AuthenticationScheme);
             }
 
-            // Note: to support non-interactive flows like password,
-            // you must provide your own token endpoint action:
-
-            [HttpPost("~/connect/token"), Produces("application/json")]
+        // Note: to support non-interactive flows like password,
+        // you must provide your own token endpoint action:
+       
+        [HttpPost("~/connect/token"), Produces("application/json")]
             public async Task<IActionResult> Exchange(OpenIdConnectRequest request)
             {
                 if (request.IsPasswordGrantType())

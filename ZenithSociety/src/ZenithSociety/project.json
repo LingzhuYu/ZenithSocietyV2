@@ -51,7 +51,8 @@
     "bootstrap": "3.3.7",
     "AspNet.Security.OAuth.Validation": "1.0.0-alpha2-final",
     "OpenIddict": "1.0.0-*",
-    "OpenIddict.Mvc": "1.0.0-*"
+    "OpenIddict.Mvc": "1.0.0-*",
+    "Microsoft.AspNetCore.Cors": "1.1.0"
   },
 
   "tools": {

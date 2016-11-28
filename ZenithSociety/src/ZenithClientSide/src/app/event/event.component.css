@@ -1,0 +1,14 @@
+table{
+    width:650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+tr{
+    height: 28px;
+}
+#table_title{
+    text-align: center;
+}
+th, td{
+    padding-left: 20px;
+}

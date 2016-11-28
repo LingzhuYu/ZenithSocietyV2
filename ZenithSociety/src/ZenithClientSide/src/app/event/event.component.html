@@ -1,26 +1,17 @@
-<p>
-  event works!
-</p>
-
+<h3>Events for {{currentDate}}</h3>
 <table *ngIf="results" border="1">
   <thead>
     <tr>
       <th>Activity Description</th>
       <th>Start Date & Time</th>
       <th>End Date & Time</th>
-      <th>Created By</th>
-      <th>Creation Date</th>
-      <th>Is Active</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let e of results; let i=index">
-      <td>{{e.activityId}}</td>
-      <td>{{e.startDate}}</td>
-      <td>{{e.endDate}}</td>
-      <td>{{e.userId}}</td>
-      <td>{{e.creationDate}}</td>
-      <td>{{e.isActive}}</td>
+      <td>{{e.activity.activityDescription}}</td>
+      <td>{{e.startDate | date}}</td>
+      <td>{{e.endDate | date}}</td>
     </tr>
   </tbody>
 </table>

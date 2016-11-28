@@ -13,6 +13,7 @@ using ZenithSociety.Models;
 using ZenithSociety.Services;
 using ZenithSociety.Data;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace ZenithSociety
 {
@@ -40,7 +41,9 @@ namespace ZenithSociety
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.AddCors();
 
             services.AddDbContext<ApplicationDbContext>(options =>

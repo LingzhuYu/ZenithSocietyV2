@@ -8,6 +8,7 @@ import { EventComponent } from "./event/event.component";
   styleUrls: ['./app.component.css'],
   providers: [EventService]
 })
+
 export class AppComponent {
-  title = 'app works!';
+  title = 'Zenith Society';
 }

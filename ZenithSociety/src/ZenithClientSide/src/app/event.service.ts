@@ -8,7 +8,7 @@
       constructor(private http: Http) { }
 
       getAll() {
-        return this.http.get('http://localhost:53487/api/eventapi')
+        return this.http.get('http://a2.kagutsuchi.net/api/eventapi')
         .map((res: Response) => res.json());
       }
     }

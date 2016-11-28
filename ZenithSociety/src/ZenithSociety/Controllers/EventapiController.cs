@@ -7,6 +7,7 @@ using ZenithSociety.Data;
 using ZenithSociety.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,7 +28,7 @@ namespace ZenithSociety.Controllers
         [HttpGet]
         public IEnumerable<Event> Get()
         {
-            return _context.Events.ToList();
+            return _context.Events.Include(a => a.Activity).ToList(); 
         }
 
         // GET api/eventapi/5

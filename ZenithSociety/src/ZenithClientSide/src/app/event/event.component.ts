@@ -9,14 +9,21 @@ import { EventService } from '../event.service';
 })
 export class EventComponent implements OnInit {
   results: Array<Event>;
+  events: Array<Event>;
+  currentDate: Date;
 
   constructor(private EventService: EventService) { }
 
   ngOnInit() {
+
     this.EventService.getAll().subscribe(
       data => { this.results = data; },
       error => console.log(error)
     );
+
+    this.currentDate = new Date();
+
+    
   }
 
 }

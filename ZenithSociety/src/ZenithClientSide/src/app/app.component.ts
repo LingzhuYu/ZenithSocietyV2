@@ -10,6 +10,7 @@ import { UserComponent } from "./user/user.component";
   styleUrls: ['./app.component.css'],
   providers: [EventService, UserService]
 })
+
 export class AppComponent {
   title = 'Zenith Society';
 }

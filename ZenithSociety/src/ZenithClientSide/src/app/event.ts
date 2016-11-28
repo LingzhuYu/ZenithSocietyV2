@@ -6,6 +6,7 @@ export class Event {
     creationDate: Date;
     isActive: boolean;
     activityId: number;
+    activity: Object;
 
     constructor(obj?: any) {
         this.eventId = obj && obj.eventId || null;

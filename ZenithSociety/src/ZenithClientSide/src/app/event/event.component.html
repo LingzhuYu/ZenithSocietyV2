@@ -1,17 +1,26 @@
-<h3>Events for {{currentDate}}</h3>
-<table *ngIf="results" border="1">
+<h3>Events for {{currentDate | date: dateFormat}}</h3>
+<!--<table *ngIf="results" border="1">
   <thead>
     <tr>
+      <th>Event Duration</th>
       <th>Activity Description</th>
-      <th>Start Date & Time</th>
-      <th>End Date & Time</th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let e of results; let i=index">
+    <tr *ngFor="let e of results">
+      <td>{{e.startDate | date: timeFormat}} - {{e.endDate |date: timeFormat}}</td>
       <td>{{e.activity.activityDescription}}</td>
-      <td>{{e.startDate | date}}</td>
-      <td>{{e.endDate | date}}</td>
+    </tr>
+  </tbody>
+</table>-->
+
+<table border="1">
+  <tbody *ngFor="let e of results">
+    <tr style="background-color: lightblue;">
+      <th colspan = "2">{{e.startDate | date: dateFormat}}</th>
+    </tr>
+    <tr>
+      <td>{{e.startDate | date: timeFormat}} - {{e.endDate |date: timeFormat}}</td>
+      <td>{{e.activity.activityDescription}}</td>
     </tr>
   </tbody>
 </table>
